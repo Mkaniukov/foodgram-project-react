@@ -21,7 +21,7 @@ services:
   frontend:
     image: muratkaniukov/foodgram-frontend:latest
     volumes:
-      - frontend_data:../frontend/:/app/result_build/
+      - ./frontend/:/app/result_build/
     depends_on:
       - backend
   nginx:
@@ -43,4 +43,3 @@ volumes:
   postgres_data:
   static_value:
   media_value:
-  frontend_data:
