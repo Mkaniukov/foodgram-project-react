@@ -7,7 +7,7 @@ services:
     env_file:
       - .env
 
-  backend:
+  web:
     image: muratkaniukov/foodgram-project:latest
     restart: always
     volumes:
@@ -19,9 +19,9 @@ services:
   frontend:
     image: muratkaniukov/foodgram-frontend:latest
     volumes:
-      - ./frontend/:/app/result_build/
+      - ../frontend/:/app/result_build/
     depends_on:
-      - backend
+      - web
 
   nginx:
     image: nginx:1.19.3
@@ -36,7 +36,7 @@ services:
       - media_value:/var/html/media/
     depends_on:
       - frontend
-      - backend
+      - web
 
 volumes:
   postgres_data:
