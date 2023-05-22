@@ -11,4 +11,3 @@ urlpatterns = [
     path('api/', include(api_patterns)),
     path('api/', include('rest_framework.urls'))
 ]
-
