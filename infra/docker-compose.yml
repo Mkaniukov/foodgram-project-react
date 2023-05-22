@@ -3,7 +3,7 @@ services:
   db:
     image: postgres:13.0
     volumes:
-      - /var/lib/postgresql/data/
+      - postgres_data:/var/lib/postgresql/data/
     env_file:
       - .env
   backend:
@@ -21,7 +21,7 @@ services:
   frontend:
     image: muratkaniukov/foodgram-frontend:latest
     volumes:
-      - ../frontend/:/app/result_build/
+      - frontend_data:../frontend/:/app/result_build/
     depends_on:
       - backend
   nginx:
@@ -37,6 +37,7 @@ services:
       - media_value:/var/html/media/
     depends_on:
       - frontend
+      - backend
 
 volumes:
   postgres_data:
