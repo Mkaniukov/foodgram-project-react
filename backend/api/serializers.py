@@ -1,14 +1,15 @@
 from django.contrib.auth import get_user_model
+from rest_framework import serializers
+
 from drf_extra_fields.fields import Base64ImageField
 from recipes.models import (
+    Favorite,
     Ingredient,
     IngredientAmount,
-    Tag,
+    Recipe,
     ShoppingCart,
-    Favorite,
-    Recipe
+    Tag
 )
-from rest_framework import serializers
 from users.serializers import UserSerializer
 
 User = get_user_model()
@@ -109,7 +110,7 @@ class PostRecipeSerializer(serializers.ModelSerializer):
             ingredient_id = ingredient['id']
             ingredient_amount = ingredient['amount']
             get_ingredient = Ingredient.objects.get(id=ingredient_id)
-            IngredientAmount.objects.create(
+            IngredientAmount.objects.bulk_create(
                 recipe=recipe,
                 ingredient=get_ingredient,
                 amount=ingredient_amount,

@@ -1,10 +1,11 @@
 from django.contrib.auth import get_user_model
 from djoser.serializers import UserCreateSerializer
 from rest_framework import serializers
-from rest_framework.validators import UniqueValidator
 from rest_framework.generics import get_object_or_404
+from rest_framework.validators import UniqueValidator
 
 from recipes.models import Recipe
+
 from .models import Follow
 
 User = get_user_model()
@@ -19,7 +20,13 @@ class UserCreateSerializer(UserCreateSerializer):
     class Meta:
         model = User
         fields = (
-            'email', 'id', 'password', 'username', 'first_name', 'last_name')
+            'email',
+            'id',
+            'password',
+            'username',
+            'first_name',
+            'last_name'
+        )
         extra_kwargs = {
             'email': {'required': True},
             'username': {'required': True},
@@ -35,7 +42,11 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            'email', 'id', 'username', 'first_name', 'last_name',
+            'email',
+            'id',
+            'username',
+            'first_name',
+            'last_name',
             'is_subscribed'
         )
 
