@@ -7,12 +7,16 @@ services:
     env_file:
       - .env
 
-  web:
+  backend:
     image: muratkaniukov/foodgram-project:latest
+    ports:
+      - "8000:8000"
     restart: always
     volumes:
       - static_value:/app/static/
       - media_value:/app/media/
+    depends_on:
+      - db
     env_file:
       - .env
 
@@ -21,7 +25,7 @@ services:
     volumes:
       - ../frontend/:/app/result_build/
     depends_on:
-      - web
+      - backend
 
   nginx:
     image: nginx:1.19.3
@@ -36,7 +40,7 @@ services:
       - media_value:/var/html/media/
     depends_on:
       - frontend
-      - web
+      - backend
 
 volumes:
   postgres_data:

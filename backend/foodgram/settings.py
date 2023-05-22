@@ -15,6 +15,7 @@ ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', default='*')
 INSTALLED_APPS = [
     'api',
     'users',
+    'foodgram',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
