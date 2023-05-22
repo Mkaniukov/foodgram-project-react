@@ -43,7 +43,7 @@ jobs:
       - name: Push to Docker Hub
         uses: docker/build-push-action@v2
         with:
-          context: ./api_yamdb
+          context: ./foodgram-project
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/foodgram-project:latest
 
