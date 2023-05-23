@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.7'
 services:
 
   db:
@@ -28,7 +28,7 @@ services:
       - ./.env
 
   nginx:
-    image: nginx:1.19.6
+    image: nginx:1.21.3-alpine
     ports:
       - 80:80
     volumes:
