@@ -30,11 +30,11 @@ class Tag(models.Model):
         (ORANGE, 'Оранжевый')
 
     ]
-    name = models.CharField(max_length=200, unique=True,
+    name = models.CharField(max_length=64, unique=True,
                             verbose_name='Название тега')
     color = models.CharField(max_length=7, unique=True, choices=COLOR_CHOICES,
                              verbose_name='Цвет')
-    slug = models.SlugField(max_length=200, unique=True,
+    slug = models.SlugField(max_length=64, unique=True,
                             verbose_name='Слаг')
 
     class Meta:
