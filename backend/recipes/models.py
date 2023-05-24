@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.core.validators import MinValueValidator
+from django.core import validators
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -120,12 +120,10 @@ class Recipe(models.Model):
         help_text='Загрузите изображение с фотографией готового блюда',
     )
     cooking_time = models.PositiveSmallIntegerField(
-        validators=(MinValueValidator(
-            1,
-            message='Укажите время больше нуля!',
-        ),),
-        verbose_name=_('Время приготовления'),
-        help_text='Задайте время приготовления блюда',
+        verbose_name='Время приготовления в минутах',
+        validators=[validators.MinValueValidator(
+            1, message='Минимальное время приготовления 1 минута'),
+        ]
     )
 
     class Meta:
@@ -157,12 +155,10 @@ class IngredientAmount(models.Model):
         verbose_name=_('Ингредиент'),
     )
     amount = models.PositiveSmallIntegerField(
-        validators=(MinValueValidator(
-            1,
-            message='Укажите количество больше нуля!',
-        ),),
-        verbose_name=_('Количество'),
-        help_text='Введите количество единиц ингредиента',
+        validators=(
+            validators.MinValueValidator(
+                1, message='Минимальное количество ингридиентов 1'),),
+        verbose_name='Количество',
     )
 
     class Meta:
