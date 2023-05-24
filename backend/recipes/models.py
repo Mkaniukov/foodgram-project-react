@@ -47,9 +47,9 @@ class Tag(models.Model):
 
 
 class Ingredient(models.Model):
-    name = models.CharField(max_length=200,
+    name = models.CharField(max_length=64,
                             verbose_name='Название ингредиента')
-    measurement_unit = models.CharField(max_length=200,
+    measurement_unit = models.CharField(max_length=64,
                                         verbose_name='Единица измерения')
 
     class Meta:
@@ -94,7 +94,7 @@ class Recipe(models.Model):
     """
     name = CharField(
         verbose_name='Название блюда',
-        max_length=200,
+        max_length=64,
     )
     author = ForeignKey(
         verbose_name='Автор рецепта',
@@ -125,7 +125,7 @@ class Recipe(models.Model):
     )
     text = TextField(
         verbose_name='Описание блюда',
-        max_length=200,
+        max_length=5000,
     )
     cooking_time = models.PositiveSmallIntegerField(
         verbose_name='Время приготовления в минутах',
