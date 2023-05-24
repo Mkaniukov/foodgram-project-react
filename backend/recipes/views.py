@@ -16,8 +16,7 @@ from api.serializers import (FavoriteSerializer, GetRecipeSerializer,
                              IngredientSerializer, PostRecipeSerializer,
                              ShoppingCartSerializer, TagSerializer)
 
-from .models import (Favorite, Ingredient, IngredientAmount, Recipe,
-                     ShoppingCart, Tag)
+from .models import (Ingredient, IngredientAmount, Recipe, Tag)
 
 
 class TagsViewSet(ReadOnlyModelViewSet):
