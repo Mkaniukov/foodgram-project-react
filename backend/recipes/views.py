@@ -20,9 +20,10 @@ from .models import (Favorite, Ingredient, IngredientAmount, Recipe,
 
 
 class TagsViewSet(ReadOnlyModelViewSet):
-    permission_classes = (IsAdminOrReadOnly,)
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
+    pagination_class = None
+    permission_classes = (IsAdminOrReadOnly,)
 
 
 class IngredientsViewSet(ReadOnlyModelViewSet):
