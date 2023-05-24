@@ -7,7 +7,7 @@ load_dotenv()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = os.getenv('SECRET_KEY', default='9lcphoq3k=1+hygjlwetyxtuuuo!R7D!!6@Bkp7sl%6t94tamg')
+SECRET_KEY = os.getenv('SECRET_KEY', default='12345')
 
 DEBUG = True
 
@@ -120,20 +120,16 @@ EMPTY_VALUE = _('-пусто-')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
-    ],
-
-    'DEFAULT_AUTHENTICATION_CLASSES': [
+    'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
-    ],
-
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 6,
+    ),
     'DEFAULT_FILTER_BACKENDS': [
-        'django_filters.rest_framework.DjangoFilterBackend',
-    ]
+        'django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
 }
+
 
 
 DJOSER = {
