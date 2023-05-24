@@ -1,5 +1,20 @@
+from PIL import Image
+
 from django.core import validators
 from django.db import models
+from django.db.models import (
+    CASCADE,
+    SET_NULL,
+    CharField,
+    CheckConstraint,
+    DateTimeField,
+    ForeignKey,
+    ImageField,
+    ManyToManyField,
+    Q,
+    TextField,
+    UniqueConstraint
+)
 
 from users.models import User
 
@@ -47,26 +62,71 @@ class Ingredient(models.Model):
 
 
 class Recipe(models.Model):
-    author = models.ForeignKey(
-        User,
-        on_delete=models.SET_NULL,
-        null=True,
-        verbose_name='Автор публикации',
+    """Модель для рецептов.
+
+    Основная модель приложения описывающая рецепты.
+
+    Attributes:
+        name(str):
+            Название рецепта. Установлены ограничения по длине.
+        author(int):
+            Автор рецепта. Связан с моделю User через ForeignKey.
+        in_favorites(int):
+            Связь M2M с моделью User.
+            Создаётся при добавлении пользователем рецепта в `избранное`.
+        tags(int):
+            Связь M2M с моделью Tag.
+        ingredients(int):
+            Связь M2M с моделью Ingredient. Связь создаётся посредством модели
+            AmountIngredient с указанием количества ингридиента.
+        in_carts(int):
+            Связь M2M с моделью User.
+            Создаётся при добавлении пользователем рецепта в `покупки`.
+        pub_date(datetime):
+            Дата добавления рецепта. Прописывается автоматически.
+        image(str):
+            Изображение рецепта. Указывает путь к изображению.
+        text(str):
+            Описание рецепта. Установлены ограничения по длине.
+        cooking_time(int):
+            Время приготовления рецепта.
+            Установлены ограничения по максимальным и минимальным значениям.
+    """
+    name = CharField(
+        verbose_name='Название блюда',
+        max_length=200,
+    )
+    author = ForeignKey(
+        verbose_name='Автор рецепта',
         related_name='recipes',
+        to=User,
+        on_delete=SET_NULL,
+        null=True,
     )
-    name = models.CharField(
-        verbose_name='Название', max_length=200)
-    image = models.ImageField(
-        verbose_name='Изображение', upload_to='recipe_images/')
-    text = models.TextField(
-        verbose_name='Текстовое описание')
-    ingredients = models.ManyToManyField(
-        Ingredient,
-        through='IngredientAmount',
-        verbose_name='Ингредиенты',
+    tags = ManyToManyField(
+        verbose_name='Тег',
+        related_name='recipes',
+        to='Tag',
     )
-    tags = models.ManyToManyField(
-        Tag, verbose_name='Тег')
+    ingredients = ManyToManyField(
+        verbose_name='Ингредиенты блюда',
+        related_name='recipes',
+        to=Ingredient,
+        through='recipes.IngredientAmount',
+    )
+    pub_date = DateTimeField(
+        verbose_name='Дата публикации',
+        auto_now_add=True,
+        editable=False,
+    )
+    image = ImageField(
+        verbose_name='Изображение блюда',
+        upload_to='recipe_images/',
+    )
+    text = TextField(
+        verbose_name='Описание блюда',
+        max_length=200,
+    )
     cooking_time = models.PositiveSmallIntegerField(
         verbose_name='Время приготовления в минутах',
         validators=[validators.MinValueValidator(
@@ -75,39 +135,77 @@ class Recipe(models.Model):
     )
 
     class Meta:
-        ordering = ('-id',)
         verbose_name = 'Рецепт'
         verbose_name_plural = 'Рецепты'
+        ordering = ('-pub_date', )
+        constraints = (
+            UniqueConstraint(
+                fields=('name', 'author'),
+                name='unique_for_author',
+            ),
+            CheckConstraint(
+                check=Q(name__length__gt=0),
+                name='\n%(app_label)s_%(class)s_name is empty\n',
+            ),
+        )
 
-    def __str__(self):
-        return f'{self.name}'
+    def __str__(self) -> str:
+        return f'{self.name}. Автор: {self.author.username}'
+
+    def clean(self) -> None:
+        self.name = self.name.capitalize()
+        return super().clean()
+
+    def save(self, *args, **kwargs) -> None:
+        super().save(*args, **kwargs)
+        image = Image.open(self.image.path)
+        image = image.resize(500, 300)
+        image.save(self.image.path)
 
 
 class Favorite(models.Model):
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        verbose_name='Пользователь',
+    """Избранные рецепты.
+
+    Модель связывает Recipe и  User.
+
+    Attributes:
+        recipe(int):
+            Связаный рецепт. Связь через ForeignKey.
+        user(int):
+            Связаный пользователь. Связь через ForeignKey.
+        date_added(datetime):
+            Дата дбавления рецепта в избранное.
+    """
+    recipe = ForeignKey(
+        verbose_name='Понравившиеся рецепты',
+        related_name='in_favorites',
+        to=Recipe,
+        on_delete=CASCADE,
     )
-    recipe = models.ForeignKey(
-        Recipe,
-        on_delete=models.CASCADE,
+    user = ForeignKey(
+        verbose_name='Пользователь',
         related_name='favorites',
-        verbose_name='Рецепт',
+        to=User,
+        on_delete=CASCADE,
+    )
+    date_added = DateTimeField(
+        verbose_name='Дата добавления',
+        auto_now_add=True,
+        editable=False
     )
 
     class Meta:
-        ordering = ('-id',)
-        verbose_name = 'Избранное'
-        verbose_name_plural = 'Избранные'
+        verbose_name = 'Избранный рецепт'
+        verbose_name_plural = 'Избранные рецепты'
+        constraints = (
+            UniqueConstraint(
+                fields=('recipe', 'user', ),
+                name='\n%(app_label)s_%(class)s recipe is favorite alredy\n',
+            ),
+        )
 
-        constraints = [
-            models.UniqueConstraint(fields=['user', 'recipe'],
-                                    name='unique recipe')
-        ]
-
-    def __str__(self):
-        return f'{self.user}'
+    def __str__(self) -> str:
+        return f'{self.user} -> {self.recipe}'
 
 
 class ShoppingCart(models.Model):
