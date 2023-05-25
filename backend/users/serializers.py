@@ -1,21 +1,14 @@
 from django.contrib.auth import get_user_model
-from djoser.serializers import UserCreateSerializer
+from djoser.serializers import UserCreateSerializer, UserSerializer
 from rest_framework import serializers
-from rest_framework.validators import UniqueValidator
 
 from recipes.models import Recipe
-
 from .models import Follow
 
 User = get_user_model()
 
 
 class CustomUserCreateSerializer(UserCreateSerializer):
-    email = serializers.EmailField(
-        validators=[UniqueValidator(queryset=User.objects.all())])
-    username = serializers.CharField(
-        validators=[UniqueValidator(queryset=User.objects.all())])
-
     class Meta:
         model = User
         fields = (
@@ -35,7 +28,7 @@ class CustomUserCreateSerializer(UserCreateSerializer):
         }
 
 
-class UserSerializer(serializers.ModelSerializer):
+class CustomUserSerializer(serializers.ModelSerializer):
     is_subscribed = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
@@ -57,7 +50,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ShortRecipeSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Recipe
         fields = ('id', 'name', 'image', 'cooking_time')
@@ -96,7 +88,7 @@ class FollowSerializer(serializers.ModelSerializer):
             recipes = obj.recipes.all()
         context = {'request': request}
         return ShortRecipeSerializer(recipes, many=True,
-                                      context=context).data
+                                     context=context).data
 
     @staticmethod
     def get_recipes_count(obj):
