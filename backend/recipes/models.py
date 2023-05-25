@@ -132,9 +132,6 @@ class ShoppingCart(models.Model):
                                     name='unique cart')
         ]
 
-    def __str__(self):
-        return f'Рецепт {self.recipe} у пользователя {self.user}'
-
 
 class IngredientAmount(models.Model):
     recipe = models.ForeignKey(
