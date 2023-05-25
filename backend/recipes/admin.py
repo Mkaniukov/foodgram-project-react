@@ -2,8 +2,8 @@ from django.conf import settings
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
-from .models import (FavoriteRecipe, Ingredient, Recipe, RecipeIngredient,
-                     ShoppingList, Tag)
+from .models import (Favorite, Ingredient, Recipe, IngredientAmount,
+                     ShoppingCart, Tag)
 
 
 @admin.register(Tag)
@@ -32,13 +32,13 @@ class IngredientAdmin(admin.ModelAdmin):
     empty_value_display = settings.EMPTY_VALUE
 
     def get_recipes_count(self, obj):
-        return RecipeIngredient.objects.filter(ingredient=obj.id).count()
+        return IngredientAmount.objects.filter(ingredient=obj.id).count()
 
     get_recipes_count.short_description = _('Использований в рецептах')
 
 
 class RecipeIngredientsInline(admin.TabularInline):
-    model = RecipeIngredient
+    model = IngredientAmount
     min_num = 1
     extra = 1
 
@@ -49,7 +49,7 @@ class RecipeIngredientsInline(admin.TabularInline):
 #     extra = 0
 
 
-@admin.register(RecipeIngredient)
+@admin.register(IngredientAmount)
 class RecipeIngredientsAdmin(admin.ModelAdmin):
     list_display = (
         'id',
@@ -89,7 +89,7 @@ class RecipeAdmin(admin.ModelAdmin):
     in_favorite.short_description = _('Количество добавлений в избранное')
 
 
-@admin.register(FavoriteRecipe)
+@admin.register(Favorite)
 class FavoriteRecipeAdmin(admin.ModelAdmin):
     list_display = (
         'id',
@@ -98,7 +98,7 @@ class FavoriteRecipeAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(ShoppingList)
+@admin.register(ShoppingCart)
 class ShoppingListAdmin(admin.ModelAdmin):
     list_display = (
         'id',
