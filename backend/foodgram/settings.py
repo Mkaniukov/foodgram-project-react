@@ -13,7 +13,7 @@ DEBUG = False
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', default='*')
 
 INSTALLED_APPS = [
-    'api',
+    'recipes',
     'users',
     'django.contrib.admin',
     'django.contrib.auth',
