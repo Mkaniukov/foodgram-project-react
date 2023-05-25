@@ -1,7 +1,7 @@
-from django_filters.rest_framework import FilterSet, filters
+from django_filters.rest_framework import filters, FilterSet
 from rest_framework.filters import SearchFilter
 
-from recipes.models import Recipe
+from .models import Recipe
 
 
 class IngredientNameFilter(SearchFilter):
@@ -19,12 +19,12 @@ class RecipeFilter(FilterSet):
         model = Recipe
         fields = ('tags', 'author', 'is_favorited', 'is_in_shopping_cart')
 
-    def filter_is_favorited(self, queryset, value):
+    def filter_is_favorited(self, queryset, name, value):
         if value:
             return queryset.filter(favorites__user=self.request.user)
         return queryset
 
-    def filter_is_in_shopping_cart(self, queryset, value):
+    def filter_is_in_shopping_cart(self, queryset, name, value):
         if value:
             return queryset.filter(cart__user=self.request.user)
-        return queryset
+        return
