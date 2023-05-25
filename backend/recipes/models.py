@@ -124,13 +124,15 @@ class ShoppingCart(models.Model):
     )
 
     class Meta:
+        constraints = (
+            models.UniqueConstraint(
+                fields=('recipe', 'user'),
+                name='shopping_recipe_user_exists',
+            ),
+        )
         ordering = ('-id',)
-        verbose_name = 'Корзина'
-        verbose_name_plural = 'В корзине'
-        constraints = [
-            models.UniqueConstraint(fields=['user', 'recipe'],
-                                    name='unique cart')
-        ]
+        verbose_name = 'Список покупок'
+        verbose_name_plural = 'Списки покупок'
 
     def __str__(self):
         return f'Рецепт {self.recipe} у пользователя {self.user}'
