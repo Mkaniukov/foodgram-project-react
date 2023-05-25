@@ -23,7 +23,7 @@ class Tag(models.Model):
                             verbose_name='Слаг')
 
     class Meta:
-        ordering = ['-id']
+        ordering = ('-id',)
         verbose_name = 'Тег'
         verbose_name_plural = 'Теги'
 
@@ -38,7 +38,7 @@ class Ingredient(models.Model):
                                         verbose_name='Единица измерения')
 
     class Meta:
-        ordering = ['-id']
+        ordering = ('-id',)
         verbose_name = 'Ингредиент'
         verbose_name_plural = 'Ингредиенты'
 
