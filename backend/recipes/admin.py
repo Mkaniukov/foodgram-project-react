@@ -2,7 +2,6 @@ from django.conf import settings
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
-from .forms import TagForm
 from .models import (FavoriteRecipe, Ingredient, Recipe, RecipeIngredient,
                      ShoppingList, Tag)
 
@@ -15,7 +14,6 @@ class TagsAdmin(admin.ModelAdmin):
         'color',
         'slug',
     )
-    form = TagForm
     search_fields = ('name',)
     ordering = ('color',)
     empty_value_display = settings.EMPTY_VALUE
