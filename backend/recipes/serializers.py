@@ -20,7 +20,11 @@ class IngredientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ingredient
-        fields = ('id', 'name', 'measurement_unit')
+        fields = (
+            'id',
+            'name',
+            'measurement_unit'
+        )
 
 
 class IngredientAmountSerializer(serializers.ModelSerializer):
@@ -32,7 +36,12 @@ class IngredientAmountSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = IngredientAmount
-        fields = ('id', 'name', 'measurement_unit', 'amount')
+        fields = (
+            'id',
+            'name',
+            'measurement_unit',
+            'amount'
+        )
 
 
 class RecipeIngredientCreate(IngredientAmountSerializer):
@@ -51,8 +60,14 @@ class PostRecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe
         fields = (
-            'id', 'author', 'ingredients', 'tags', 'image',
-            'name', 'text', 'cooking_time'
+            'id',
+            'author',
+            'ingredients',
+            'tags',
+            'image',
+            'name',
+            'text',
+            'cooking_time'
         )
 
     def validate(self, data):
@@ -96,7 +111,7 @@ class PostRecipeSerializer(serializers.ModelSerializer):
             ingredient_id = ingredient['id']
             ingredient_amount = ingredient['amount']
             get_ingredient = Ingredient.objects.get(id=ingredient_id)
-            IngredientAmount.objects.create(
+            IngredientAmount.objects.bulk_create(
                 recipe=recipe,
                 ingredient=get_ingredient,
                 amount=ingredient_amount,
@@ -172,7 +187,12 @@ class ShortRecipeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Recipe
-        fields = ('id', 'name', 'image', 'cooking_time')
+        fields = (
+            'id',
+            'name',
+            'image',
+            'cooking_time'
+        )
 
 
 class FavoriteSerializer(serializers.ModelSerializer):

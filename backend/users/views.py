@@ -6,8 +6,10 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from recipes.pagination import (LimitPageFollowNumberPagination,
-                                LimitPageNumberPagination)
+from recipes.pagination import (
+    LimitPageFollowNumberPagination,
+    LimitPageNumberPagination
+)
 
 from .models import Follow
 from .serializers import FollowSerializer, ShowFollowSerializer
