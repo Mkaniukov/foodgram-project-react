@@ -4,7 +4,7 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from rest_framework.generics import get_object_or_404
 
-from api.models import Recipe
+from recipes.models import Recipe
 from .models import Follow
 
 User = get_user_model()
