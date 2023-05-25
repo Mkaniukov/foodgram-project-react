@@ -23,7 +23,7 @@ class Tag(models.Model):
                             verbose_name='Слаг')
 
     class Meta:
-        ordering = ('-id',)
+        ordering = ['-id']
         verbose_name = 'Тег'
         verbose_name_plural = 'Теги'
 
@@ -38,7 +38,7 @@ class Ingredient(models.Model):
                                         verbose_name='Единица измерения')
 
     class Meta:
-        ordering = ('-id',)
+        ordering = ['-id']
         verbose_name = 'Ингредиент'
         verbose_name_plural = 'Ингредиенты'
 
@@ -75,7 +75,7 @@ class Recipe(models.Model):
     )
 
     class Meta:
-        ordering = ('-id',)
+        ordering = ['-id']
         verbose_name = 'Рецепт'
         verbose_name_plural = 'Рецепты'
 
@@ -97,7 +97,7 @@ class Favorite(models.Model):
     )
 
     class Meta:
-        ordering = ('-id',)
+        ordering = ['-id']
         verbose_name = 'Избранное'
         verbose_name_plural = 'Избранные'
         constraints = [
@@ -130,7 +130,7 @@ class ShoppingCart(models.Model):
                 name='shopping_recipe_user_exists',
             ),
         )
-        ordering = ('-id',)
+        ordering = ['-id']
         verbose_name = 'Список покупок'
         verbose_name_plural = 'Списки покупок'
 
