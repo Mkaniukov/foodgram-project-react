@@ -93,8 +93,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         return self.delete_method_for_actions(
             request=request, pk=pk, model=ShoppingCart)
 
-    @action(detail=False, methods=['get'],
-            permission_classes=[IsAuthenticated])
+    @action(detail=False)
     def download_shopping_cart(self, request):
         shopping_list = []
         ingredients = IngredientAmount.objects.filter(
