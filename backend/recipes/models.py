@@ -97,7 +97,7 @@ class Favorite(models.Model):
     )
 
     class Meta:
-        ordering = ['-id']
+        ordering = ('-id',)
         verbose_name = 'Избранное'
         verbose_name_plural = 'Избранные'
         constraints = [
@@ -131,6 +131,9 @@ class ShoppingCart(models.Model):
             models.UniqueConstraint(fields=['user', 'recipe'],
                                     name='unique cart')
         ]
+
+    def __str__(self):
+        return f'Рецепт {self.recipe} у пользователя {self.user}'
 
 
 class IngredientAmount(models.Model):
