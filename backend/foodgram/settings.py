@@ -110,6 +110,8 @@ CORS_URLS_REGEX = r'^/api/.*$'
 
 AUTH_USER_MODEL = 'users.User'
 
+EMPTY_VALUE = '-пусто-'
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
