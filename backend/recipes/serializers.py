@@ -107,8 +107,8 @@ class PostRecipeSerializer(serializers.ModelSerializer):
         return data
 
     def create_ingredients(self, ingredients, recipe):
-        IngredientAmoun.objects.bulk_create(
-            [IngredientAmoun(
+        IngredientAmount.objects.bulk_create(
+            [IngredientAmount(
                 recipe=recipe,
                 ingredient=Ingredient.objects.get(ingredient_id=ingredient['id']),
                 ingredient_amount=ingredient['amount']
