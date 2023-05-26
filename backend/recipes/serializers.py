@@ -116,6 +116,14 @@ class PostRecipeSerializer(serializers.ModelSerializer):
         )
 
 
+    def create_ingredients(self, ingredients, recipe):
+        IngredientAmount.objects.bulk_create(
+            IngredientAmount(
+                recipe=recipe,
+                ingredient=ingredient.get('id'),
+                amount=ingredient.get('amount')
+            ) for ingredient in ingredients)
+
 
     def create(self, validated_data):
         author = self.context.get('request').user
