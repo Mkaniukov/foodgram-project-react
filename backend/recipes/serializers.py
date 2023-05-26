@@ -8,7 +8,6 @@ from .models import (Favorite, Ingredient, IngredientAmount, Recipe,
 
 
 class TagSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Tag
         fields = '__all__'
@@ -108,22 +107,11 @@ class PostRecipeSerializer(serializers.ModelSerializer):
 
     def create_ingredients(self, ingredients, recipe):
         IngredientAmount.objects.bulk_create(
-            [IngredientAmount(
-                recipe=recipe,
-                ingredient=Ingredient.objects.get(ingredient['id']),
-                amount=ingredient['amount']
-            ) for ingredient in ingredients]
-        )
-
-
-    def create_ingredients(self, ingredients, recipe):
-        IngredientAmount.objects.bulk_create(
             IngredientAmount(
                 recipe=recipe,
-                ingredient=Ingredient.objects.get(id=ingredient['id'] ),
+                ingredient=Ingredient.objects.get(id=ingredient['id']),
                 amount=ingredient.get('amount')
             ) for ingredient in ingredients)
-
 
     def create(self, validated_data):
         author = self.context.get('request').user
@@ -192,7 +180,6 @@ class GetRecipeSerializer(serializers.ModelSerializer):
 
 
 class ShortRecipeSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Recipe
         fields = (
@@ -204,7 +191,6 @@ class ShortRecipeSerializer(serializers.ModelSerializer):
 
 
 class FavoriteSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Favorite
         fields = ('user', 'recipe')
@@ -228,7 +214,6 @@ class FavoriteSerializer(serializers.ModelSerializer):
 
 
 class ShoppingCartSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = ShoppingCart
         fields = ('user', 'recipe')
