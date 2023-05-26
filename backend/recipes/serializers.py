@@ -107,15 +107,13 @@ class PostRecipeSerializer(serializers.ModelSerializer):
         return data
 
     def create_ingredients(self, ingredients, recipe):
-        for ingredient in ingredients:
-            ingredient_id = ingredient['id']
-            ingredient_amount = ingredient['amount']
-            get_ingredient = Ingredient.objects.get(id=ingredient_id)
-            IngredientAmount.objects.create(
+        IngredientAmoun.objects.bulk_create(
+            [IngredientAmoun(
                 recipe=recipe,
-                ingredient=get_ingredient,
-                amount=ingredient_amount,
-            )
+                ingredient=Ingredient.objects.get(ingredient_id=ingredient['id']),
+                ingredient_amount=ingredient['amount']
+            ) for ingredient in ingredients]
+        )
 
     def create(self, validated_data):
         author = self.context.get('request').user
