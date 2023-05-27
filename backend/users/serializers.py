@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from djoser.serializers import UserCreateSerializer
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 from rest_framework.generics import get_object_or_404
 from rest_framework.validators import UniqueValidator
 
@@ -34,6 +35,13 @@ class UserCreateSerializer(UserCreateSerializer):
             'first_name': {'required': True},
             'last_name': {'required': True},
         }
+
+    def validate_username(self, value):
+        if value == "me":
+            raise ValidationError(
+                'Невозможно создать пользователя с таким именем!'
+            )
+        return value
 
 
 class UserSerializer(serializers.ModelSerializer):
