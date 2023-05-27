@@ -1,7 +1,7 @@
 ![workflow](https://github.com/Mkaniukov/foodgram-project-react/actions/workflows/foodgram-project.yml
 /badge.svg)
 
-https://github.com/Mkaniukov/foodgram-project-react/actions/workflows/foodgram-project.yml/badge.svg
+
 
 ### Описание
 Проект Foodgram - сайт, на котором пользователи могут публиковать рецепты, добавлять чужие рецепты в избранное и подписываться на публикации других авторов. А перед походом в магазин, сервис «Список покупок» позволяет пользователям скачивать сводный список продуктов, необходимых для приготовления одного или нескольких выбранных блюд.
