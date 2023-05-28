@@ -1,5 +1,4 @@
-![workflow](https://github.com/Mkaniukov/foodgram-project-react/actions/workflows/foodgram-project.yml
-/badge.svg)
+![example workflow](https://github.com/Mkaniukov/foodgram-project-react/actions/workflows/foodgram-project.yml/badge.svg)
 
 
 
