@@ -16,6 +16,7 @@ services:
     volumes:
       - static_value:/app/static/
       - media_value:/app/media/
+      -  docs:/app/api/docs/
     depends_on:
       - db
     env_file:
@@ -47,3 +48,4 @@ volumes:
   static_value:
   media_value:
   frontend_data:
+  docs:
