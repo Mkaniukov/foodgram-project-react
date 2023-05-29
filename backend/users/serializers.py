@@ -37,7 +37,7 @@ class UserCreateSerializer(UserCreateSerializer):
         }
 
     def validate_username(self, value):
-        if value == ('me', 'Me', 'ME', 'mE'):
+        if value == ['me', 'Me', 'ME', 'mE']:
             raise ValidationError(
                 'Невозможно создать пользователя с таким именем!'
             )
