@@ -36,12 +36,14 @@ class UserCreateSerializer(UserCreateSerializer):
             'last_name': {'required': True},
         }
 
-    def validate_username(self, value):
-        if value == ['me', 'Me', 'ME', 'mE']:
-            raise ValidationError(
-                'Невозможно создать пользователя с таким именем!'
+    def validate(self, obj):
+        invalid_usernames = ['me', 'Me', 'ME', 'mE']
+        if self.initial_data.get('username') in invalid_usernames:
+            raise serializers.ValidationError(
+                {'username': 'Вы не можете использовать этот username.'}
             )
-        return value
+        return obj
+
 
 
 class UserSerializer(serializers.ModelSerializer):
