@@ -45,7 +45,6 @@ class UserCreateSerializer(UserCreateSerializer):
         return obj
 
 
-
 class UserSerializer(serializers.ModelSerializer):
     is_subscribed = serializers.SerializerMethodField()
 
@@ -68,7 +67,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ShortRecipeSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Recipe
         fields = ('id', 'name', 'image', 'cooking_time')
