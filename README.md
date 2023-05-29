@@ -28,7 +28,7 @@ DB_ENGINE=django.db.backends.postgresql
 DB_NAME=<имя базы данных>  
 POSTGRES_USER=<пользователь бд>  
 POSTGRES_PASSWORD=<пароль бд>   
-DB_HOST=db  [README.md](README.md)
+DB_HOST=db  
 DB_PORT=5432   
  
 * Соберите docker-compose:
