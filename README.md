@@ -2,26 +2,26 @@
 
 
 
-### Описание
-Проект Foodgram - сайт, на котором пользователи могут публиковать рецепты, добавлять чужие рецепты в избранное и подписываться на публикации других авторов. А перед походом в магазин, сервис «Список покупок» позволяет пользователям скачивать сводный список продуктов, необходимых для приготовления одного или нескольких выбранных блюд.
+### Description
+The Foodgram project is a site where users can publish recipes, add other people's recipes to their favorites and subscribe to other authors' publications. And before going to the store, the "Shopping List" service allows users to download a consolidated list of products needed to prepare one or more selected dishes.
 
-### Запуск проекта
-* Склонируйте репозиторий с github на локальную машину:
+### Project Launch
+* Clone the repository from github to your local machine:
 > git clone <https://git@github.com:Mkaniukov/foodgram-project-react.git>
 
-* На локальной машине отредактируйте файл nginx.conf, в строке server_name впишите IP своего удаленного сервера 
+* On the local machine, edit the nginx.conf file, and in the server_name line write the IP of your remote server.
 
-* Скопируйте файлы docker-compose.yml и nginx.conf из директории infra на сервер:
+* Copy the docker-compose.yml and nginx.conf files from the infra directory to the server:
 >scp docker-compose.yml username@host:/home/username/docker-compose.yml  
 scp nginx.conf username@host:/home/username/nginx.conf
 
-* Подключитесь к своему удаленному серверу:
+* Connect to your remote server:
 > ssh username@host
 
-* Установите Docker на сервер:
+* Install Docker on the server:
 > sudo apt install docker.io 
 
-* Cоздайте .env файл и впишите:
+* Create an .env file and type in:
 >SECRET_KEY=cекретный ключ проекта  
 ALLOWED_HOSTS=['*']  
 DB_ENGINE=django.db.backends.postgresql  
@@ -31,22 +31,16 @@ POSTGRES_PASSWORD=<пароль бд>
 DB_HOST=db  
 DB_PORT=5432   
  
-* Соберите docker-compose:
+* Build docker-compose:
 > sudo docker-compose up -d --build
 
-* После успешной сборки на сервере сделайте миграции:
+* After successful build on the server, do the migrations:
 >sudo docker-compose exec backend python manage.py makemigrations --noinput  
 > sudo docker-compose exec backend python manage.py migrate --noinput
-* Соберите статические файлы:
+* Compile the static files:
 > sudo docker-compose exec backend python manage.py collectstatic --noinput
-* Загрузите ингридиенты в базу данных:
+* Load the ingredients into the database:
 > sudo docker-compose exec backend python manage.py load_data
-* Создайте суперпользователя Django:
+* Create a Django superuser:
 >sudo docker-compose exec backend python manage.py createsuperuser
-* Проект будет доступен по IP вашего сервера
-
-### Проект доступен по адресу:
-http://158.160.6.41
-
-lodin: admin@admin.com
-pasword: admin
+* The project will be accessible by your server IP
